@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gerador de Senhas</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      background: #0f172a;
+      color: #f8fafc;
+    }
+
+    h1 {
+      margin-bottom: 20px;
+      font-size: 2rem;
+    }
+
+    .container {
+      background: #1e293b;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.4);
+      text-align: center;
+    }
+
+    #password {
+      font-family: monospace;
+      font-size: 1.2rem;
+      background: #334155;
+      color: #f1f5f9;
+      padding: 10px;
+      margin: 20px 0;
+      border: none;
+      border-radius: 8px;
+      width: 100%;
+      word-break: break-all;
+    }
+
+    button {
+      background-color: #3b82f6;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: background 0.3s;
+    }
+
+    button:hover {
+      background-color: #2563eb;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🔐 Gerador de Senhas</h1>
+    <input type="text" id="password" readonly />
+    <button onclick="gerarSenha()">Gerar Senha</button>
+  </div>
+
+  <script>
+    function gerarSenha() {
+      const length = 20;
+      const charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%&*()-_=+";
+      let password = "";
+      for (let i = 0; i < length; i++) {
+        const randomIndex = Math.floor(Math.random() * charset.length);
+        password += charset[randomIndex];
+      }
+      document.getElementById("password").value = password;
+    }
+
+    // Gera uma senha ao carregar
+    window.onload = gerarSenha;
+  </script>
+</body>
+</html>
