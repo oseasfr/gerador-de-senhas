@@ -5,37 +5,51 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Gerador de Senhas</title>
   <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body, html {
+      height: 100%;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
     body {
-      font-family: sans-serif;
+      background: url('https://images.unsplash.com/photo-1623051775166-b206ab9e8a1e?auto=format&fit=crop&w=1950&q=80') no-repeat center center fixed;
+      background-size: cover;
+    }
+
+    .overlay {
+      background-color: rgba(15, 23, 42, 0.85); /* overlay escuro */
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
       display: flex;
-      flex-direction: column;
       align-items: center;
       justify-content: center;
-      height: 100vh;
-      margin: 0;
-      background: #0f172a;
-      color: #f8fafc;
-    }
-background: url('https://images.unsplash.com/photo-1547658719-da2b51169166?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=80') no-repeat center center fixed;
-  background-size: cover;
-  color: #f8fafc;
-  backdrop-filter: brightness(0.6);
-    h1 {
-      margin-bottom: 20px;
-      font-size: 2rem;
     }
 
     .container {
-      background: #1e293b;
+      background: rgba(30, 41, 59, 0.9);
       padding: 30px;
       border-radius: 12px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.4);
+      box-shadow: 0 0 15px rgba(0,0,0,0.4);
       text-align: center;
+      max-width: 400px;
+      width: 90%;
+      color: #f8fafc;
+    }
+
+    h1 {
+      font-size: 1.8rem;
+      margin-bottom: 20px;
     }
 
     #password {
       font-family: monospace;
-      font-size: 1.2rem;
+      font-size: 1.1rem;
       background: #334155;
       color: #f1f5f9;
       padding: 10px;
@@ -43,7 +57,7 @@ background: url('https://images.unsplash.com/photo-1547658719-da2b51169166?ixlib
       border: none;
       border-radius: 8px;
       width: 100%;
-      word-break: break-all;
+      text-align: center;
     }
 
     button {
@@ -63,10 +77,12 @@ background: url('https://images.unsplash.com/photo-1547658719-da2b51169166?ixlib
   </style>
 </head>
 <body>
-  <div class="container">
-    <h1>🔐 Gerador de Senhas</h1>
-    <input type="text" id="password" readonly />
-    <button onclick="gerarSenha()">Gerar Senha</button>
+  <div class="overlay">
+    <div class="container">
+      <h1>🔐 Gerador de Senhas</h1>
+      <input type="text" id="password" readonly />
+      <button onclick="gerarSenha()">Gerar Senha</button>
+    </div>
   </div>
 
   <script>
@@ -81,7 +97,6 @@ background: url('https://images.unsplash.com/photo-1547658719-da2b51169166?ixlib
       document.getElementById("password").value = password;
     }
 
-    // Gera uma senha ao carregar
     window.onload = gerarSenha;
   </script>
 </body>
