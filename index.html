@@ -11,40 +11,54 @@
       padding: 0;
     }
 
-    body, html {
+    html, body {
       height: 100%;
       font-family: 'Segoe UI', sans-serif;
+      overflow-x: hidden;
     }
 
     body {
-      background: url('https://unsplash.com/pt-br/fotografias/closeup-photo-of-turned-on-blue-and-white-laptop-computer-iIJrUoeRoCQ') no-repeat center center fixed;
+      background: url('https://images.unsplash.com/photo-1623051775166-b206ab9e8a1e?auto=format&fit=crop&w=1920&q=80') no-repeat center center fixed;
       background-size: cover;
+      animation: fadeIn 1s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
     }
 
     .overlay {
-      background-color: rgba(15, 23, 42, 0.85); /* overlay escuro */
+      background-color: rgba(15, 23, 42, 0.85);
       position: absolute;
       top: 0; left: 0;
       width: 100%; height: 100%;
       display: flex;
       align-items: center;
       justify-content: center;
+      padding: 20px;
     }
 
     .container {
-      background: rgba(30, 41, 59, 0.9);
-      padding: 30px;
-      border-radius: 12px;
-      box-shadow: 0 0 15px rgba(0,0,0,0.4);
+      background: rgba(30, 41, 59, 0.95);
+      padding: 2rem;
+      border-radius: 16px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.5);
       text-align: center;
+      width: 100%;
       max-width: 400px;
-      width: 90%;
       color: #f8fafc;
+      animation: scaleIn 0.6s ease-out;
+    }
+
+    @keyframes scaleIn {
+      from { transform: scale(0.9); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
     }
 
     h1 {
-      font-size: 1.8rem;
-      margin-bottom: 20px;
+      font-size: clamp(1.5rem, 2.5vw, 2rem);
+      margin-bottom: 1.5rem;
     }
 
     #password {
@@ -52,27 +66,50 @@
       font-size: 1.1rem;
       background: #334155;
       color: #f1f5f9;
-      padding: 10px;
+      padding: 12px;
       margin: 20px 0;
       border: none;
-      border-radius: 8px;
+      border-radius: 10px;
       width: 100%;
       text-align: center;
+      transition: background 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    #password:focus {
+      outline: none;
+      background: #1e293b;
+      box-shadow: 0 0 0 3px #3b82f6aa;
     }
 
     button {
       background-color: #3b82f6;
       color: white;
       border: none;
-      padding: 10px 20px;
-      border-radius: 8px;
+      padding: 12px 20px;
+      border-radius: 10px;
       cursor: pointer;
       font-size: 1rem;
-      transition: background 0.3s;
+      transition: background 0.3s ease, transform 0.2s ease;
     }
 
     button:hover {
       background-color: #2563eb;
+      transform: scale(1.05);
+    }
+
+    @media (max-width: 480px) {
+      .container {
+        padding: 1.5rem;
+        border-radius: 12px;
+      }
+
+      h1 {
+        font-size: 1.4rem;
+      }
+
+      button {
+        width: 100%;
+      }
     }
   </style>
 </head>
