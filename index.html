@@ -18,14 +18,9 @@
     }
 
     body {
-      background: url('https://raw.githubusercontent.com/oseasfr/gerador-de-senhas/Principal/fundo-gerador-de-senhas.jpg') no-repeat center center fixed;
+      background: url('https://raw.githubusercontent.com/oseasfr/gerador-de-senhas/Principal/imagens/001.jpg') no-repeat center center fixed;
       background-size: cover;
-      animation: fadeIn 1s ease-in-out;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
+      transition: background-image 0.8s ease-in-out;
     }
 
     .overlay {
@@ -123,6 +118,17 @@
   </div>
 
   <script>
+    const imagens = Array.from({ length: 10 }, (_, i) =>
+      `https://raw.githubusercontent.com/oseasfr/gerador-de-senhas/Principal/imagens/${String(i + 1).padStart(3, '0')}.jpg`
+    );
+
+    let indiceAtual = 0;
+
+    function mudarFundo() {
+      indiceAtual = (indiceAtual + 1) % imagens.length;
+      document.body.style.backgroundImage = `url('${imagens[indiceAtual]}')`;
+    }
+
     function gerarSenha() {
       const length = 20;
       const charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%&*()-_=+";
@@ -132,6 +138,7 @@
         password += charset[randomIndex];
       }
       document.getElementById("password").value = password;
+      mudarFundo();
     }
 
     window.onload = gerarSenha;
