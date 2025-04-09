@@ -185,6 +185,35 @@
     .show-feedback {
       opacity: 1;
     }
+    .range-slider {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 6px;
+    }
+    .range-slider input[type="range"] {
+      flex: 1;
+      height: 5px;
+      -webkit-appearance: none;
+      appearance: none;
+      background: #475569;
+      border-radius: 5px;
+      outline: none;
+    }
+    .range-slider input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 15px;
+      height: 15px;
+      border-radius: 50%;
+      background: #3b82f6;
+      cursor: pointer;
+      transition: background 0.15s ease;
+    }
+    .range-slider input[type="range"]::-webkit-slider-thumb:hover {
+      background: #2563eb;
+    }
     @media (max-width: 580px) {
       .container {
         padding: 1.5rem;
@@ -207,10 +236,10 @@
       
       <div class="options">
         <div class="length-option">
-          <label for="passwordLength">Comprimento da senha:</label>
-          <div>
-            <input type="number" id="passwordLength" min="15" max="20" value="20">
-            <span>caracteres</span>
+          <label for="passwordLength">Comprimento da senha: <span id="lengthValue">20</span></label>
+          <div class="range-slider">
+            <input type="range" id="passwordLengthSlider" min="10" max="20" value="20">
+            <input type="number" id="passwordLength" min="10" max="20" value="20">
           </div>
         </div>
         
@@ -331,20 +360,43 @@
       // Cálculo mais detalhado do tempo estimado para quebrar
       let textoDetalhado = '';
       
-      if (charTypesCount === 4 && length >= 15) {
-        if (length >= 18) {
-          textoDetalhado = 'Milhares de anos para quebrar com computadores convencionais';
+      if (length < 10) {
+        if (charTypesCount <= 2) {
+          textoDetalhado = 'Minutos ou horas para quebrar com computadores convencionais';
+        } else {
+          textoDetalhado = 'Dias ou semanas para quebrar com computadores convencionais';
+        }
+      } else if (length < 12) {
+        if (charTypesCount <= 2) {
+          textoDetalhado = 'Dias ou semanas para quebrar';
+        } else {
+          textoDetalhado = 'Semanas ou meses para quebrar';
+        }
+      } else if (length < 15) {
+        if (charTypesCount <= 2) {
+          textoDetalhado = 'Semanas ou meses para quebrar';
+        } else if (charTypesCount == 3) {
+          textoDetalhado = 'Meses ou anos para quebrar';
+        } else {
+          textoDetalhado = 'Anos para quebrar com computadores convencionais';
+        }
+      } else if (length < 18) {
+        if (charTypesCount <= 2) {
+          textoDetalhado = 'Meses ou anos para quebrar';
+        } else if (charTypesCount == 3) {
+          textoDetalhado = 'Dezenas de anos para quebrar com computadores convencionais';
         } else {
           textoDetalhado = 'Centenas de anos para quebrar com computadores convencionais';
         }
-      } else if (charTypesCount >= 3 && length >= 15) {
-        textoDetalhado = 'Dezenas de anos para quebrar com computadores convencionais';
-      } else if (charTypesCount >= 2 && length >= 15) {
-        textoDetalhado = 'Alguns anos para quebrar com computadores convencionais';
-      } else if (length >= 15) {
-        textoDetalhado = 'Meses ou alguns anos para quebrar';
       } else {
-        textoDetalhado = 'Semanas ou meses para quebrar';
+        // 18 caracteres ou mais
+        if (charTypesCount <= 2) {
+          textoDetalhado = 'Anos para quebrar';
+        } else if (charTypesCount == 3) {
+          textoDetalhado = 'Centenas de anos para quebrar com computadores convencionais';
+        } else {
+          textoDetalhado = 'Milhares de anos para quebrar com computadores convencionais';
+        }
       }
       
       return {
@@ -382,9 +434,11 @@
         return;
       }
       
-      // Limitar o comprimento entre 15 e 20
-      const validLength = Math.max(15, Math.min(20, length));
+      // Limitar o comprimento entre 10 e 20
+      const validLength = Math.max(10, Math.min(20, length));
       document.getElementById("passwordLength").value = validLength;
+      document.getElementById("passwordLengthSlider").value = validLength;
+      document.getElementById("lengthValue").textContent = validLength;
       
       // Construir conjunto de caracteres com base nas opções
       let charset = "";
@@ -405,8 +459,24 @@
       mudarFundo();
     }
     
-    // Atualizar a força da senha quando mudar o comprimento
-    document.getElementById("passwordLength").addEventListener("change", function() {
+    // Sincronizar slider e campo numérico
+    document.getElementById("passwordLengthSlider").addEventListener("input", function() {
+      const value = this.value;
+      document.getElementById("passwordLength").value = value;
+      document.getElementById("lengthValue").textContent = value;
+      
+      const currentPassword = document.getElementById("password").value;
+      if (currentPassword) {
+        atualizarForcaSenha(currentPassword);
+      }
+    });
+    
+    document.getElementById("passwordLength").addEventListener("input", function() {
+      const value = Math.max(10, Math.min(20, this.value));
+      this.value = value;
+      document.getElementById("passwordLengthSlider").value = value;
+      document.getElementById("lengthValue").textContent = value;
+      
       const currentPassword = document.getElementById("password").value;
       if (currentPassword) {
         atualizarForcaSenha(currentPassword);
