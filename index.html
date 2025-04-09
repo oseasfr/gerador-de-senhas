@@ -1,3 +1,234 @@
+<svg viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- Gradients aprimorados -->
+    <linearGradient id="lockGradient" x1="20%" y1="0%" x2="80%" y2="100%">
+      <stop offset="0%" stop-color="#60a5fa" />
+      <stop offset="50%" stop-color="#3b82f6" />
+      <stop offset="100%" stop-color="#1d4ed8" />
+    </linearGradient>
+    
+    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a" />
+      <stop offset="100%" stop-color="#1e293b" />
+    </linearGradient>
+    
+    <!-- Filtros aprimorados -->
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="4" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+    
+    <filter id="innerShadow">
+      <feOffset dx="0" dy="3" />
+      <feGaussianBlur stdDeviation="2" result="offset-blur" />
+      <feComposite operator="out" in="SourceGraphic" in2="offset-blur" result="inverse" />
+      <feFlood flood-color="black" flood-opacity="0.4" result="color" />
+      <feComposite operator="in" in="color" in2="inverse" result="shadow" />
+      <feComposite operator="over" in="shadow" in2="SourceGraphic" />
+    </filter>
+    
+    <!-- Pattern para o fundo -->
+    <pattern id="gridPattern" width="10" height="10" patternUnits="userSpaceOnUse">
+      <rect width="10" height="10" fill="#0f172a" />
+      <rect width="1" height="1" fill="#334155" />
+    </pattern>
+  </defs>
+  
+  <!-- Background aprimorado -->
+  <circle cx="200" cy="100" r="95" fill="url(#bgGradient)" />
+  <circle cx="200" cy="100" r="85" fill="#1e293b" />
+  <circle cx="200" cy="100" r="80" fill="#0f172a" />
+  
+  <!-- Digital grid effect -->
+  <circle cx="200" cy="100" r="75" fill="url(#gridPattern)" opacity="0.1">
+    <animate attributeName="opacity" values="0.05;0.15;0.05" dur="3s" repeatCount="indefinite" />
+  </circle>
+  
+  <!-- Lock body com sombra e reflexo -->
+  <rect x="165" y="90" width="70" height="60" rx="10" ry="10" fill="url(#lockGradient)" filter="url(#innerShadow)" />
+  
+  <!-- Reflexo no cadeado -->
+  <rect x="168" y="93" width="64" height="10" rx="5" ry="5" fill="white" opacity="0.2" />
+  
+  <!-- Lock shackle aprimorado -->
+  <path d="M175 90 Q175 65 200 65 Q225 65 225 90" stroke="url(#lockGradient)" stroke-width="14" fill="none" stroke-linecap="round" />
+  
+  <!-- Keyhole -->
+  <circle cx="200" cy="115" r="8" fill="#0f172a" />
+  <rect x="197" y="115" width="6" height="12" fill="#0f172a" />
+  
+  <!-- Password characters com animação aprimorada -->
+  <g font-family="monospace" font-weight="bold" font-size="16" fill="white" text-anchor="middle" filter="url(#glow)">
+    <!-- Character 1 -->
+    <text x="170" y="145">
+      <tspan id="char1">A</tspan>
+      <animate 
+        attributeName="textContent"
+        values="A;4;Z;7;$;2;S;9;@;P"
+        dur="3s"
+        repeatCount="indefinite" 
+        begin="0s" />
+      <animate 
+        attributeName="fill"
+        values="#ffffff;#60a5fa;#ffffff"
+        dur="3s"
+        repeatCount="indefinite"
+        begin="0s" />
+    </text>
+    
+    <!-- Character 2 -->
+    <text x="190" y="145">
+      <tspan id="char2">b</tspan>
+      <animate 
+        attributeName="textContent"
+        values="b;B;8;x;#;Q;9;h;!;F"
+        dur="3s"
+        repeatCount="indefinite" 
+        begin="0.3s" />
+      <animate 
+        attributeName="fill"
+        values="#ffffff;#60a5fa;#ffffff"
+        dur="3s"
+        repeatCount="indefinite"
+        begin="0.3s" />
+    </text>
+    
+    <!-- Character 3 -->
+    <text x="210" y="145">
+      <tspan id="char3">3</tspan>
+      <animate 
+        attributeName="textContent"
+        values="3;c;%;D;5;!;F;K;6;*"
+        dur="3s"
+        repeatCount="indefinite" 
+        begin="0.6s" />
+      <animate 
+        attributeName="fill"
+        values="#ffffff;#60a5fa;#ffffff"
+        dur="3s"
+        repeatCount="indefinite"
+        begin="0.6s" />
+    </text>
+    
+    <!-- Character 4 -->
+    <text x="230" y="145">
+      <tspan id="char4">@</tspan>
+      <animate 
+        attributeName="textContent"
+        values="@;E;6;*;y;G;1;?;R;7"
+        dur="3s"
+        repeatCount="indefinite" 
+        begin="0.9s" />
+      <animate 
+        attributeName="fill"
+        values="#ffffff;#60a5fa;#ffffff"
+        dur="3s"
+        repeatCount="indefinite"
+        begin="0.9s" />
+    </text>
+  </g>
+  
+  <!-- Electric pulse effect -->
+  <g>
+    <circle cx="200" cy="100" r="90" stroke="#3b82f6" stroke-width="1" fill="none">
+      <animate attributeName="r" values="85;105;85" dur="2s" repeatCount="indefinite" />
+      <animate attributeName="opacity" values="0.8;0;0.8" dur="2s" repeatCount="indefinite" />
+      <animate attributeName="stroke" values="#3b82f6;#60a5fa;#3b82f6" dur="2s" repeatCount="indefinite" />
+    </circle>
+    
+    <circle cx="200" cy="100" r="95" stroke="#3b82f6" stroke-width="0.5" fill="none">
+      <animate attributeName="r" values="95;115;95" dur="2s" repeatCount="indefinite" begin="0.3s" />
+      <animate attributeName="opacity" values="0.6;0;0.6" dur="2s" repeatCount="indefinite" begin="0.3s" />
+      <animate attributeName="stroke" values="#3b82f6;#60a5fa;#3b82f6" dur="2s" repeatCount="indefinite" begin="0.3s" />
+    </circle>
+  </g>
+  
+  <!-- Rays effect aprimorados -->
+  <g>
+    <!-- Digital rays -->
+    <g stroke-dasharray="3,3">
+      <!-- Top ray -->
+      <line x1="200" y1="30" x2="200" y2="0" stroke="#3b82f6" stroke-width="2">
+        <animate attributeName="opacity" values="0;1;0" dur="2s" repeatCount="indefinite" />
+        <animate attributeName="stroke" values="#3b82f6;#60a5fa;#3b82f6" dur="2s" repeatCount="indefinite" />
+      </line>
+      
+      <!-- Right ray -->
+      <line x1="270" y1="100" x2="300" y2="100" stroke="#3b82f6" stroke-width="2">
+        <animate attributeName="opacity" values="0;1;0" dur="2s" repeatCount="indefinite" begin="0.5s" />
+        <animate attributeName="stroke" values="#3b82f6;#60a5fa;#3b82f6" dur="2s" repeatCount="indefinite" begin="0.5s" />
+      </line>
+      
+      <!-- Bottom ray -->
+      <line x1="200" y1="170" x2="200" y2="200" stroke="#3b82f6" stroke-width="2">
+        <animate attributeName="opacity" values="0;1;0" dur="2s" repeatCount="indefinite" begin="1s" />
+        <animate attributeName="stroke" values="#3b82f6;#60a5fa;#3b82f6" dur="2s" repeatCount="indefinite" begin="1s" />
+      </line>
+      
+      <!-- Left ray -->
+      <line x1="130" y1="100" x2="100" y2="100" stroke="#3b82f6" stroke-width="2">
+        <animate attributeName="opacity" values="0;1;0" dur="2s" repeatCount="indefinite" begin="1.5s" />
+        <animate attributeName="stroke" values="#3b82f6;#60a5fa;#3b82f6" dur="2s" repeatCount="indefinite" begin="1.5s" />
+      </line>
+    </g>
+    
+    <!-- Diagonal rays -->
+    <g stroke-dasharray="2,4">
+      <line x1="250" y1="50" x2="270" y2="30" stroke="#3b82f6" stroke-width="2">
+        <animate attributeName="opacity" values="0;1;0" dur="2s" repeatCount="indefinite" begin="0.25s" />
+        <animate attributeName="stroke" values="#3b82f6;#60a5fa;#3b82f6" dur="2s" repeatCount="indefinite" begin="0.25s" />
+      </line>
+      
+      <line x1="150" y1="50" x2="130" y2="30" stroke="#3b82f6" stroke-width="2">
+        <animate attributeName="opacity" values="0;1;0" dur="2s" repeatCount="indefinite" begin="0.75s" />
+        <animate attributeName="stroke" values="#3b82f6;#60a5fa;#3b82f6" dur="2s" repeatCount="indefinite" begin="0.75s" />
+      </line>
+      
+      <line x1="250" y1="150" x2="270" y2="170" stroke="#3b82f6" stroke-width="2">
+        <animate attributeName="opacity" values="0;1;0" dur="2s" repeatCount="indefinite" begin="1.25s" />
+        <animate attributeName="stroke" values="#3b82f6;#60a5fa;#3b82f6" dur="2s" repeatCount="indefinite" begin="1.25s" />
+      </line>
+      
+      <line x1="150" y1="150" x2="130" y2="170" stroke="#3b82f6" stroke-width="2">
+        <animate attributeName="opacity" values="0;1;0" dur="2s" repeatCount="indefinite" begin="1.75s" />
+        <animate attributeName="stroke" values="#3b82f6;#60a5fa;#3b82f6" dur="2s" repeatCount="indefinite" begin="1.75s" />
+      </line>
+    </g>
+  </g>
+  
+  <!-- Efeito de brilho nas bordas do círculo -->
+  <circle cx="200" cy="100" r="80" stroke="#3b82f6" stroke-width="0.5" fill="none" opacity="0.5">
+    <animate attributeName="opacity" values="0.3;0.7;0.3" dur="3s" repeatCount="indefinite" />
+  </circle>
+  
+  <!-- Efeito de partículas -->
+  <g>
+    <circle cx="185" cy="65" r="1.5" fill="#60a5fa">
+      <animate attributeName="opacity" values="0;1;0" dur="2s" repeatCount="indefinite" begin="0.1s" />
+    </circle>
+    <circle cx="220" cy="70" r="1" fill="#60a5fa">
+      <animate attributeName="opacity" values="0;1;0" dur="2s" repeatCount="indefinite" begin="0.4s" />
+    </circle>
+    <circle cx="240" cy="110" r="1.5" fill="#60a5fa">
+      <animate attributeName="opacity" values="0;1;0" dur="2s" repeatCount="indefinite" begin="0.7s" />
+    </circle>
+    <circle cx="225" cy="140" r="1" fill="#60a5fa">
+      <animate attributeName="opacity" values="0;1;0" dur="2s" repeatCount="indefinite" begin="1.0s" />
+    </circle>
+    <circle cx="180" cy="150" r="1.5" fill="#60a5fa">
+      <animate attributeName="opacity" values="0;1;0" dur="2s" repeatCount="indefinite" begin="1.3s" />
+    </circle>
+    <circle cx="155" cy="135" r="1" fill="#60a5fa">
+      <animate attributeName="opacity" values="0;1;0" dur="2s" repeatCount="indefinite" begin="1.6s" />
+    </circle>
+    <circle cx="145" cy="95" r="1.5" fill="#60a5fa">
+      <animate attributeName="opacity" values="0;1;0" dur="2s" repeatCount="indefinite" begin="1.9s" />
+    </circle>
+    <circle cx="160" cy="65" r="1" fill="#60a5fa">
+      <animate attributeName="opacity" values="0;1;0" dur="2s" repeatCount="indefinite" begin="2.2s" />
+    </circle>
+  </g>
+</svg>
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
