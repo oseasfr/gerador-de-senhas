@@ -1,62 +1,575 @@
-      // Limitar o comprimento entre 10 e 20
-      const minLength = 10;
-      const maxLength = 20;
-      const finalLength = Math.max(minLength, Math.min(maxLength, length));
-
-      // Construir o conjunto de caracteres com base nas opções
-      let charSet = "";
-      if (includeUpper) charSet += "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-      if (includeLower) charSet += "abcdefghijklmnopqrstuvwxyz";
-      if (includeNumbers) charSet += "0123456789";
-      if (includeSymbols) charSet += "!@#$%&*()-_=+";
-
-      // Gerar a senha
-      let password = "";
-      for (let i = 0; i < finalLength; i++) {
-        const randomIndex = Math.floor(Math.random() * charSet.length);
-        password += charSet[randomIndex];
-      }
-
-      // Definir no campo e atualizar a força
-      const passwordField = document.getElementById("password");
-      passwordField.value = password;
-      atualizarForcaSenha(password);
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gerador de Senhas</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
     }
-
+    html, body {
+      height: 100%;
+      font-family: 'Segoe UI', sans-serif;
+      overflow-x: hidden;
+    }
+    body {
+      background: url('https://raw.githubusercontent.com/oseasfr/gerador-de-senhas/Principal/imagens/001.jpg') no-repeat center center fixed;
+      background-size: cover;
+      transition: background-image 0.8s ease-in-out;
+    }
+    .overlay {
+      background-color: rgba(15, 23, 42, 0.85);
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .container {
+      background: rgba(30, 41, 59, 0.95);
+      padding: 2rem;
+      border-radius: 16px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.5);
+      text-align: center;
+      width: 100%;
+      max-width: 600px;
+      color: #f8fafc;
+      animation: scaleIn 0.6s ease-out;
+    }
+    @keyframes scaleIn {
+      from { transform: scale(0.9); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+    h1 {
+      font-size: clamp(1.5rem, 2.5vw, 2rem);
+      margin-bottom: 1.5rem;
+    }
+    h2 {
+      font-size: 1.2rem;
+      margin-bottom: 1rem;
+      color: #d1d5db;
+    }
+    #password, #testPassword {
+      font-family: monospace;
+      font-size: 1.1rem;
+      background: #334155;
+      color: #f1f5f9;
+      padding: 12px;
+      margin: 20px 0;
+      border: none;
+      border-radius: 10px;
+      width: 100%;
+      text-align: center;
+      transition: background 0.3s ease, box-shadow 0.3s ease;
+    }
+    #password:focus, #testPassword:focus {
+      outline: none;
+      background: #1e293b;
+      box-shadow: 0 0 0 3px #3b82f6aa;
+    }
+    button {
+      background-color: #3b82f6;
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: background 0.3s ease, transform 0.2s ease;
+      margin-bottom: 1rem;
+    }
+    button:hover {
+      background-color: #2563eb;
+      transform: scale(1.05);
+    }
+    .options {
+      display: flex;
+      flex-direction: column;
+      align-items: start;
+      text-align: left;
+      margin: 1rem 0;
+      background: rgba(51, 65, 85, 0.5);
+      padding: 1rem;
+      border-radius: 10px;
+    }
+    .option-row {
+      display: flex;
+      align-items: center;
+      margin-bottom: 0.5rem;
+      width: 100%;
+    }
+    .option-row label {
+      margin-left: 0.5rem;
+      flex: 1;
+    }
+    .length-option {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      margin-bottom: 0.5rem;
+    }
+    .length-option input {
+      width: 3rem;
+      text-align: center;
+      margin-left: 0.5rem;
+      padding: 4px;
+      border-radius: 4px;
+      border: none;
+      background: #334155;
+      color: #fff;
+    }
+    .strength-meter {
+      margin-top: 1rem;
+      padding: 1rem;
+      border-radius: 10px;
+      background: rgba(51, 65, 85, 0.5);
+      text-align: left;
+    }
+    .strength-bar {
+      height: 8px;
+      width: 100%;
+      background: #475569;
+      border-radius: 4px;
+      margin: 0.5rem 0 1rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .strength-fill {
+      height: 100%;
+      width: 0%;
+      transition: width 0.5s ease, background-color 0.5s ease;
+    }
+    .strength-title {
+      font-weight: bold;
+      margin-bottom: 0.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .strength-info {
+      font-size: 0.9rem;
+      margin-top: 0.5rem;
+    }
+    .copy-btn {
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      margin-left: 0.5rem;
+      color: #f1f5f9;
+      font-size: 1.2rem;
+      padding: 0;
+      transition: color 0.2s ease;
+    }
+    .copy-btn:hover {
+      color: #3b82f6;
+      transform: none;
+    }
+    .password-container {
+      display: flex;
+      align-items: center;
+      position: relative;
+    }
+    .copy-feedback {
+      position: absolute;
+      right: 10px;
+      top: -20px;
+      background: #3b82f6;
+      color: white;
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    .show-feedback {
+      opacity: 1;
+    }
+    .range-slider {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 6px;
+    }
+    .range-slider input[type="range"] {
+      flex: 1;
+      height: 5px;
+      -webkit-appearance: none;
+      appearance: none;
+      background: #475569;
+      border-radius: 5px;
+      outline: none;
+    }
+    .range-slider input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 15px;
+      height: 15px;
+      border-radius: 50%;
+      background: #3b82f6;
+      cursor: pointer;
+      transition: background 0.15s ease;
+    }
+    .range-slider input[type="range"]::-webkit-slider-thumb:hover {
+      background: #2563eb;
+    }
+    .tabs {
+      display: flex;
+      margin-bottom: 1rem;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    .tab-btn {
+      flex: 1;
+      padding: 10px;
+      cursor: pointer;
+      background: #334155;
+      color: #d1d5db;
+      border: none;
+      font-weight: bold;
+      transition: background 0.3s ease;
+      margin: 0;
+      border-radius: 0;
+    }
+    .tab-btn.active {
+      background: #3b82f6;
+      color: white;
+    }
+    .tab-content {
+      display: none;
+    }
+    .tab-content.active {
+      display: block;
+      animation: fadeIn 0.3s ease-out;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    @media (max-width: 640px) {
+      .container {
+        padding: 1.5rem;
+        border-radius: 12px;
+        width: 95%;
+      }
+      h1 {
+        font-size: 1.4rem;
+      }
+      .tab-btn {
+        padding: 8px;
+        font-size: 0.9rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="overlay">
+    <div class="container">
+      <h1>🔐 Gerador de Senhas</h1>
+      
+      <div class="tabs">
+        <button class="tab-btn active" data-tab="generate">Gerar Senha</button>
+        <button class="tab-btn" data-tab="test">Testar Senha</button>
+      </div>
+      
+      <!-- Seção Gerar Senha -->
+      <div id="generate" class="tab-content active">
+        <div class="options">
+          <div class="length-option">
+            <label for="passwordLength">Comprimento da senha: <span id="lengthValue">20</span></label>
+            <div class="range-slider">
+              <input type="range" id="passwordLengthSlider" min="10" max="20" value="20">
+              <input type="number" id="passwordLength" min="10" max="20" value="20">
+            </div>
+          </div>
+          
+          <div class="option-row">
+            <input type="checkbox" id="includeUpper" checked>
+            <label for="includeUpper">Letras maiúsculas (A-Z)</label>
+          </div>
+          
+          <div class="option-row">
+            <input type="checkbox" id="includeLower" checked>
+            <label for="includeLower">Letras minúsculas (a-z)</label>
+          </div>
+          
+          <div class="option-row">
+            <input type="checkbox" id="includeNumbers" checked>
+            <label for="includeNumbers">Números (0-9)</label>
+          </div>
+          
+          <div class="option-row">
+            <input type="checkbox" id="includeSymbols" checked>
+            <label for="includeSymbols">Símbolos (!@#$%&*()-_=+)</label>
+          </div>
+        </div>
+        
+        <div class="password-container">
+          <input type="text" id="password" readonly>
+          <div class="copy-feedback">Copiado!</div>
+          <button class="copy-btn" onclick="copiarSenha('password')" title="Copiar senha">📋</button>
+        </div>
+        
+        <button onclick="gerarSenha()">Gerar Senha</button>
+        
+        <div class="strength-meter">
+          <div class="strength-title">
+            <span>Força da senha: <span id="strength-text">-</span></span>
+            <span id="strength-score">-</span>
+          </div>
+          <div class="strength-bar">
+            <div class="strength-fill" id="strength-fill"></div>
+          </div>
+          <div class="strength-info" id="strength-info">-</div>
+        </div>
+      </div>
+      
+      <!-- Seção Testar Senha -->
+      <div id="test" class="tab-content">
+        <h2>Digite uma senha para testar sua força</h2>
+        
+        <div class="password-container">
+          <input type="text" id="testPassword" placeholder="Digite sua senha aqui">
+        </div>
+        
+        <button onclick="analisarSenha()">Analisar Senha</button>
+        
+        <div class="strength-meter">
+          <div class="strength-title">
+            <span>Força da senha: <span id="test-strength-text">-</span></span>
+            <span id="test-strength-score">-</span>
+          </div>
+          <div class="strength-bar">
+            <div class="strength-fill" id="test-strength-fill"></div>
+          </div>
+          <div class="strength-info" id="test-strength-info">-</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    const imagens = Array.from({ length: 10 }, (_, i) =>
+      https://raw.githubusercontent.com/oseasfr/gerador-de-senhas/Principal/imagens/${String(i + 1).padStart(3, '0')}.jpg
+    );
+    let indiceAtual = 0;
+    
+    function mudarFundo() {
+      indiceAtual = (indiceAtual + 1) % imagens.length;
+      document.body.style.backgroundImage = url('${imagens[indiceAtual]}');
+    }
+    
+    function copiarSenha(id) {
+      const passwordField = document.getElementById(id);
+      passwordField.select();
+      document.execCommand("copy");
+      
+      const feedback = document.querySelector(".copy-feedback");
+      feedback.classList.add("show-feedback");
+      
+      setTimeout(() => {
+        feedback.classList.remove("show-feedback");
+      }, 1500);
+    }
+    
+    function calcularForçaSenha(password) {
+      // Definir pontuação base com base no comprimento
+      let score = 0;
+      const length = password.length;
+      
+      // Verificar a existência de diferentes tipos de caracteres
+      const hasUpper = /[A-Z]/.test(password);
+      const hasLower = /[a-z]/.test(password);
+      const hasNumbers = /[0-9]/.test(password);
+      const hasSymbols = /[!@#$%&*\(\)-_=+]/.test(password);
+      
+      // Adicionar pontos para cada tipo de caractere presente
+      const charTypesCount = [hasUpper, hasLower, hasNumbers, hasSymbols].filter(Boolean).length;
+      
+      // Calcular pontuação base no comprimento e tipos de caracteres
+      score = Math.min(100, (length * 4) + (charTypesCount * 10));
+      
+      // Ajustar pontuação com base no comprimento mínimo
+      if (length < 8) score = Math.min(score, 40);
+      else if (length < 10) score = Math.min(score, 60);
+      else if (length < 12) score = Math.min(score, 80);
+      
+      // Retornar objetos com as informações de força
+      let strength = '';
+      let color = '';
+      let info = '';
+      
+      if (score < 30) {
+        strength = 'Muito fraca';
+        color = '#ff4d4d';
+        info = 'Senha facilmente quebrável em segundos ou minutos.';
+      } else if (score < 50) {
+        strength = 'Fraca';
+        color = '#ffaa00';
+        info = 'Pode ser quebrada em poucas horas ou dias.';
+      } else if (score < 70) {
+        strength = 'Média';
+        color = '#ffff00';
+        info = 'Pode levar semanas para ser quebrada.';
+      } else if (score < 85) {
+        strength = 'Forte';
+        color = '#aaff00';
+        info = 'Pode levar anos para ser quebrada.';
+      } else {
+        strength = 'Muito forte';
+        color = '#66ff66';
+        info = 'Pode levar séculos para ser quebrada com tecnologia atual.';
+      }
+      
+      // Adicionar informações adicionais baseadas na análise
+      if (length < 12) {
+        info += ' Recomendamos senhas com pelo menos 12 caracteres.';
+      }
+      
+      if (charTypesCount < 3) {
+        info += ' Use mais tipos de caracteres (maiúsculas, minúsculas, números, símbolos).';
+      }
+      
+      return {
+        score,
+        strength,
+        color,
+        info
+      };
+    }
+    
+    function atualizarForcaSenha(password, idPrefix = '') {
+      const strengthResult = calcularForçaSenha(password);
+      
+      document.getElementById(${idPrefix}strength-text).textContent = strengthResult.strength;
+      document.getElementById(${idPrefix}strength-score).textContent = ${strengthResult.score}/100;
+      
+      const strengthFill = document.getElementById(${idPrefix}strength-fill);
+      strengthFill.style.width = ${strengthResult.score}%;
+      strengthFill.style.backgroundColor = strengthResult.color;
+      
+      document.getElementById(${idPrefix}strength-info).textContent = strengthResult.info;
+    }
+    
+    function gerarSenha() {
+      // Obter os valores das opções
+      const length = parseInt(document.getElementById("passwordLength").value);
+      const includeUpper = document.getElementById("includeUpper").checked;
+      const includeLower = document.getElementById("includeLower").checked;
+      const includeNumbers = document.getElementById("includeNumbers").checked;
+      const includeSymbols = document.getElementById("includeSymbols").checked;
+      
+      // Verificar se pelo menos uma opção está selecionada
+      if (!(includeUpper || includeLower || includeNumbers || includeSymbols)) {
+        alert("Selecione pelo menos um tipo de caractere");
+        return;
+      }
+      
+      // Limitar o comprimento entre 10 e 20
+      const validLength = Math.max(10, Math.min(20, length));
+      document.getElementById("passwordLength").value = validLength;
+      document.getElementById("passwordLengthSlider").value = validLength;
+      document.getElementById("lengthValue").textContent = validLength;
+      
+      // Construir conjunto de caracteres com base nas opções
+      let charset = "";
+      if (includeUpper) charset += "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+      if (includeLower) charset += "abcdefghijklmnopqrstuvwxyz";
+      if (includeNumbers) charset += "0123456789";
+      if (includeSymbols) charset += "!@#$%&*()-_=+";
+      
+      // Gerar senha
+      let password = "";
+      for (let i = 0; i < validLength; i++) {
+        const randomIndex = Math.floor(Math.random() * charset.length);
+        password += charset[randomIndex];
+      }
+      
+      document.getElementById("password").value = password;
+      atualizarForcaSenha(password);
+      mudarFundo();
+    }
+    
     function analisarSenha() {
       const password = document.getElementById("testPassword").value;
-      atualizarForcaSenha(password, 'test-');
+      if (!password) {
+        alert("Digite uma senha para analisar");
+        return;
+      }
+      atualizarForcaSenha(password, "test-");
     }
-
-    // Alternância entre as abas
-    document.querySelectorAll('.tab-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-        document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
-
-        btn.classList.add('active');
-        document.getElementById(btn.dataset.tab).classList.add('active');
+    
+    // Sincronizar slider e campo numérico
+    document.getElementById("passwordLengthSlider").addEventListener("input", function() {
+      const value = this.value;
+      document.getElementById("passwordLength").value = value;
+      document.getElementById("lengthValue").textContent = value;
+      
+      const currentPassword = document.getElementById("password").value;
+      if (currentPassword) {
+        atualizarForcaSenha(currentPassword);
+      }
+    });
+    
+    document.getElementById("passwordLength").addEventListener("input", function() {
+      const value = Math.max(10, Math.min(20, this.value));
+      this.value = value;
+      document.getElementById("passwordLengthSlider").value = value;
+      document.getElementById("lengthValue").textContent = value;
+      
+      const currentPassword = document.getElementById("password").value;
+      if (currentPassword) {
+        atualizarForcaSenha(currentPassword);
+      }
+    });
+    
+    // Atualizar a força quando mudar as opções de caracteres
+    const checkboxes = document.querySelectorAll('.option-row input[type="checkbox"]');
+    checkboxes.forEach(checkbox => {
+      checkbox.addEventListener('change', function() {
+        const currentPassword = document.getElementById("password").value;
+        if (currentPassword) {
+          atualizarForcaSenha(currentPassword);
+        }
       });
     });
-
-    // Sincronizar range e input numérico
-    const slider = document.getElementById("passwordLengthSlider");
-    const numberInput = document.getElementById("passwordLength");
-    const lengthValue = document.getElementById("lengthValue");
-
-    function syncLengthInputs(value) {
-      slider.value = value;
-      numberInput.value = value;
-      lengthValue.textContent = value;
-    }
-
-    slider.addEventListener("input", (e) => syncLengthInputs(e.target.value));
-    numberInput.addEventListener("input", (e) => syncLengthInputs(e.target.value));
-
-    // Trocar fundo a cada 10 segundos
-    setInterval(mudarFundo, 10000);
-
-    // Gera uma senha ao carregar a página
+    
+    // Alternar entre as abas
+    const tabBtns = document.querySelectorAll('.tab-btn');
+    
+    tabBtns.forEach(btn => {
+      btn.addEventListener('click', function() {
+        // Remover classe active de todos os botões e conteúdos
+        tabBtns.forEach(tb => tb.classList.remove('active'));
+        document.querySelectorAll('.tab-content').forEach(content => {
+          content.classList.remove('active');
+        });
+        
+        // Adicionar classe active ao botão clicado e ao conteúdo correspondente
+        this.classList.add('active');
+        const tabId = this.getAttribute('data-tab');
+        document.getElementById(tabId).classList.add('active');
+      });
+    });
+    
+    // Testar senha em tempo real ao digitar
+    document.getElementById("testPassword").addEventListener("input", function() {
+      if (this.value) {
+        atualizarForcaSenha(this.value, "test-");
+      } else {
+        // Resetar informações quando o campo estiver vazio
+        document.getElementById("test-strength-text").textContent = "-";
+        document.getElementById("test-strength-score").textContent = "-";
+        document.getElementById("test-strength-fill").style.width = "0%";
+        document.getElementById("test-strength-info").textContent = "-";
+      }
+    });
+    
     window.onload = gerarSenha;
   </script>
 </body>
