@@ -37,7 +37,7 @@
       box-shadow: 0 0 20px rgba(0,0,0,0.5);
       text-align: center;
       width: 100%;
-      max-width: 500px;
+      max-width: 600px;
       color: #f8fafc;
       animation: scaleIn 0.6s ease-out;
     }
@@ -49,7 +49,12 @@
       font-size: clamp(1.5rem, 2.5vw, 2rem);
       margin-bottom: 1.5rem;
     }
-    #password {
+    h2 {
+      font-size: 1.2rem;
+      margin-bottom: 1rem;
+      color: #d1d5db;
+    }
+    #password, #testPassword {
       font-family: monospace;
       font-size: 1.1rem;
       background: #334155;
@@ -62,7 +67,7 @@
       text-align: center;
       transition: background 0.3s ease, box-shadow 0.3s ease;
     }
-    #password:focus {
+    #password:focus, #testPassword:focus {
       outline: none;
       background: #1e293b;
       box-shadow: 0 0 0 3px #3b82f6aa;
@@ -147,7 +152,7 @@
       justify-content: space-between;
       align-items: center;
     }
-    .crack-time {
+    .strength-info {
       font-size: 0.9rem;
       margin-top: 0.5rem;
     }
@@ -214,17 +219,51 @@
     .range-slider input[type="range"]::-webkit-slider-thumb:hover {
       background: #2563eb;
     }
-    @media (max-width: 580px) {
+    .tabs {
+      display: flex;
+      margin-bottom: 1rem;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    .tab-btn {
+      flex: 1;
+      padding: 10px;
+      cursor: pointer;
+      background: #334155;
+      color: #d1d5db;
+      border: none;
+      font-weight: bold;
+      transition: background 0.3s ease;
+      margin: 0;
+      border-radius: 0;
+    }
+    .tab-btn.active {
+      background: #3b82f6;
+      color: white;
+    }
+    .tab-content {
+      display: none;
+    }
+    .tab-content.active {
+      display: block;
+      animation: fadeIn 0.3s ease-out;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    @media (max-width: 640px) {
       .container {
         padding: 1.5rem;
         border-radius: 12px;
-        width: 90%;
+        width: 95%;
       }
       h1 {
         font-size: 1.4rem;
       }
-      button {
-        width: 100%;
+      .tab-btn {
+        padding: 8px;
+        font-size: 0.9rem;
       }
     }
   </style>
@@ -234,53 +273,83 @@
     <div class="container">
       <h1>🔐 Gerador de Senhas</h1>
       
-      <div class="options">
-        <div class="length-option">
-          <label for="passwordLength">Comprimento da senha: <span id="lengthValue">20</span></label>
-          <div class="range-slider">
-            <input type="range" id="passwordLengthSlider" min="10" max="20" value="20">
-            <input type="number" id="passwordLength" min="10" max="20" value="20">
+      <div class="tabs">
+        <button class="tab-btn active" data-tab="generate">Gerar Senha</button>
+        <button class="tab-btn" data-tab="test">Testar Senha</button>
+      </div>
+      
+      <!-- Seção Gerar Senha -->
+      <div id="generate" class="tab-content active">
+        <div class="options">
+          <div class="length-option">
+            <label for="passwordLength">Comprimento da senha: <span id="lengthValue">20</span></label>
+            <div class="range-slider">
+              <input type="range" id="passwordLengthSlider" min="10" max="20" value="20">
+              <input type="number" id="passwordLength" min="10" max="20" value="20">
+            </div>
+          </div>
+          
+          <div class="option-row">
+            <input type="checkbox" id="includeUpper" checked>
+            <label for="includeUpper">Letras maiúsculas (A-Z)</label>
+          </div>
+          
+          <div class="option-row">
+            <input type="checkbox" id="includeLower" checked>
+            <label for="includeLower">Letras minúsculas (a-z)</label>
+          </div>
+          
+          <div class="option-row">
+            <input type="checkbox" id="includeNumbers" checked>
+            <label for="includeNumbers">Números (0-9)</label>
+          </div>
+          
+          <div class="option-row">
+            <input type="checkbox" id="includeSymbols" checked>
+            <label for="includeSymbols">Símbolos (!@#$%&*()-_=+)</label>
           </div>
         </div>
         
-        <div class="option-row">
-          <input type="checkbox" id="includeUpper" checked>
-          <label for="includeUpper">Letras maiúsculas (A-Z)</label>
+        <div class="password-container">
+          <input type="text" id="password" readonly>
+          <div class="copy-feedback">Copiado!</div>
+          <button class="copy-btn" onclick="copiarSenha('password')" title="Copiar senha">📋</button>
         </div>
         
-        <div class="option-row">
-          <input type="checkbox" id="includeLower" checked>
-          <label for="includeLower">Letras minúsculas (a-z)</label>
-        </div>
+        <button onclick="gerarSenha()">Gerar Senha</button>
         
-        <div class="option-row">
-          <input type="checkbox" id="includeNumbers" checked>
-          <label for="includeNumbers">Números (0-9)</label>
-        </div>
-        
-        <div class="option-row">
-          <input type="checkbox" id="includeSymbols" checked>
-          <label for="includeSymbols">Símbolos (!@#$%&*()-_=+)</label>
+        <div class="strength-meter">
+          <div class="strength-title">
+            <span>Força da senha: <span id="strength-text">-</span></span>
+            <span id="strength-score">-</span>
+          </div>
+          <div class="strength-bar">
+            <div class="strength-fill" id="strength-fill"></div>
+          </div>
+          <div class="strength-info" id="strength-info">-</div>
         </div>
       </div>
       
-      <div class="password-container">
-        <input type="text" id="password" readonly>
-        <div class="copy-feedback">Copiado!</div>
-        <button class="copy-btn" onclick="copiarSenha()" title="Copiar senha">📋</button>
-      </div>
-      
-      <button onclick="gerarSenha()">Gerar Senha</button>
-      
-      <div class="strength-meter">
-        <div class="strength-title">
-          <span>Força da senha: <span id="strength-text">-</span></span>
-          <span id="strength-score">-</span>
+      <!-- Seção Testar Senha -->
+      <div id="test" class="tab-content">
+        <h2>Digite uma senha para testar sua força</h2>
+        
+        <div class="password-container">
+          <input type="text" id="testPassword" placeholder="Digite sua senha aqui">
         </div>
-        <div class="strength-bar">
-          <div class="strength-fill" id="strength-fill"></div>
+        
+        <button onclick="analisarSenha()">Analisar Senha</button>
+        
+        <div class="strength-meter">
+          <div class="strength-title">
+            <span>Força da senha: <span id="test-strength-text">-</span></span>
+            <span id="test-strength-score">-</span>
+          </div>
+          <div class="strength-bar">
+            <div class="strength-fill" id="test-strength-fill"></div>
+          </div>
+          <div class="strength-info" id="test-strength-info">-</div>
         </div>
-        <div class="crack-time" id="crack-time">-</div>
       </div>
     </div>
   </div>
@@ -295,8 +364,8 @@
       document.body.style.backgroundImage = `url('${imagens[indiceAtual]}')`;
     }
     
-    function copiarSenha() {
-      const passwordField = document.getElementById("password");
+    function copiarSenha(id) {
+      const passwordField = document.getElementById(id);
       passwordField.select();
       document.execCommand("copy");
       
@@ -333,91 +402,58 @@
       // Retornar objetos com as informações de força
       let strength = '';
       let color = '';
-      let crackTime = '';
+      let info = '';
       
       if (score < 30) {
         strength = 'Muito fraca';
         color = '#ff4d4d';
-        crackTime = 'Pode ser quebrada instantaneamente';
+        info = 'Senha facilmente quebrável em segundos ou minutos.';
       } else if (score < 50) {
         strength = 'Fraca';
         color = '#ffaa00';
-        crackTime = 'Pode ser quebrada em alguns minutos ou horas';
+        info = 'Pode ser quebrada em poucas horas ou dias.';
       } else if (score < 70) {
         strength = 'Média';
         color = '#ffff00';
-        crackTime = 'Pode levar alguns dias ou semanas para ser quebrada';
+        info = 'Pode levar semanas para ser quebrada.';
       } else if (score < 85) {
         strength = 'Forte';
         color = '#aaff00';
-        crackTime = 'Pode levar anos para ser quebrada';
+        info = 'Pode levar anos para ser quebrada.';
       } else {
         strength = 'Muito forte';
         color = '#66ff66';
-        crackTime = 'Pode levar séculos para ser quebrada com a tecnologia atual';
+        info = 'Pode levar séculos para ser quebrada com tecnologia atual.';
       }
       
-      // Cálculo mais detalhado do tempo estimado para quebrar
-      let textoDetalhado = '';
+      // Adicionar informações adicionais baseadas na análise
+      if (length < 12) {
+        info += ' Recomendamos senhas com pelo menos 12 caracteres.';
+      }
       
-      if (length < 10) {
-        if (charTypesCount <= 2) {
-          textoDetalhado = 'Minutos ou horas para quebrar com computadores convencionais';
-        } else {
-          textoDetalhado = 'Dias ou semanas para quebrar com computadores convencionais';
-        }
-      } else if (length < 12) {
-        if (charTypesCount <= 2) {
-          textoDetalhado = 'Dias ou semanas para quebrar';
-        } else {
-          textoDetalhado = 'Semanas ou meses para quebrar';
-        }
-      } else if (length < 15) {
-        if (charTypesCount <= 2) {
-          textoDetalhado = 'Semanas ou meses para quebrar';
-        } else if (charTypesCount == 3) {
-          textoDetalhado = 'Meses ou anos para quebrar';
-        } else {
-          textoDetalhado = 'Anos para quebrar com computadores convencionais';
-        }
-      } else if (length < 18) {
-        if (charTypesCount <= 2) {
-          textoDetalhado = 'Meses ou anos para quebrar';
-        } else if (charTypesCount == 3) {
-          textoDetalhado = 'Dezenas de anos para quebrar com computadores convencionais';
-        } else {
-          textoDetalhado = 'Centenas de anos para quebrar com computadores convencionais';
-        }
-      } else {
-        // 18 caracteres ou mais
-        if (charTypesCount <= 2) {
-          textoDetalhado = 'Anos para quebrar';
-        } else if (charTypesCount == 3) {
-          textoDetalhado = 'Centenas de anos para quebrar com computadores convencionais';
-        } else {
-          textoDetalhado = 'Milhares de anos para quebrar com computadores convencionais';
-        }
+      if (charTypesCount < 3) {
+        info += ' Use mais tipos de caracteres (maiúsculas, minúsculas, números, símbolos).';
       }
       
       return {
         score,
         strength,
         color,
-        crackTime: `${crackTime}. ${textoDetalhado}`,
+        info
       };
     }
     
-    function atualizarForcaSenha(password) {
+    function atualizarForcaSenha(password, idPrefix = '') {
       const strengthResult = calcularForçaSenha(password);
       
-      document.getElementById("strength-text").textContent = strengthResult.strength;
-      document.getElementById("strength-score").textContent = `${strengthResult.score}/100`;
+      document.getElementById(`${idPrefix}strength-text`).textContent = strengthResult.strength;
+      document.getElementById(`${idPrefix}strength-score`).textContent = `${strengthResult.score}/100`;
       
-      const strengthFill = document.getElementById("strength-fill");
+      const strengthFill = document.getElementById(`${idPrefix}strength-fill`);
       strengthFill.style.width = `${strengthResult.score}%`;
       strengthFill.style.backgroundColor = strengthResult.color;
       
-      document.getElementById("crack-time").textContent = strengthResult.crackTime;
+      document.getElementById(`${idPrefix}strength-info`).textContent = strengthResult.info;
     }
     
     function gerarSenha() {
@@ -459,6 +495,15 @@
       mudarFundo();
     }
     
+    function analisarSenha() {
+      const password = document.getElementById("testPassword").value;
+      if (!password) {
+        alert("Digite uma senha para analisar");
+        return;
+      }
+      atualizarForcaSenha(password, "test-");
+    }
+    
     // Sincronizar slider e campo numérico
     document.getElementById("passwordLengthSlider").addEventListener("input", function() {
       const value = this.value;
@@ -492,6 +537,37 @@
           atualizarForcaSenha(currentPassword);
         }
       });
+    });
+    
+    // Alternar entre as abas
+    const tabBtns = document.querySelectorAll('.tab-btn');
+    
+    tabBtns.forEach(btn => {
+      btn.addEventListener('click', function() {
+        // Remover classe active de todos os botões e conteúdos
+        tabBtns.forEach(tb => tb.classList.remove('active'));
+        document.querySelectorAll('.tab-content').forEach(content => {
+          content.classList.remove('active');
+        });
+        
+        // Adicionar classe active ao botão clicado e ao conteúdo correspondente
+        this.classList.add('active');
+        const tabId = this.getAttribute('data-tab');
+        document.getElementById(tabId).classList.add('active');
+      });
+    });
+    
+    // Testar senha em tempo real ao digitar
+    document.getElementById("testPassword").addEventListener("input", function() {
+      if (this.value) {
+        atualizarForcaSenha(this.value, "test-");
+      } else {
+        // Resetar informações quando o campo estiver vazio
+        document.getElementById("test-strength-text").textContent = "-";
+        document.getElementById("test-strength-score").textContent = "-";
+        document.getElementById("test-strength-fill").style.width = "0%";
+        document.getElementById("test-strength-info").textContent = "-";
+      }
     });
     
     window.onload = gerarSenha;
