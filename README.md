@@ -1,6 +1,6 @@
 ### 🔐 Gerador de Senhas
 
-<p align="center">
+<p>
 <a href="https://github.com/oseasfr/gerador-de-senhas/graphs/contributors"><img src="https://img.shields.io/github/contributors-anon/oseasfr/gerador-de-senhas"></a>
 <a href="https://github.com/oseasfr/gerador-de-senhas/issues"><img src="https://img.shields.io/github/issues-raw/oseasfr/gerador-de-senhas"></a>
 <a href="https://github.com/oseasfr/gerador-de-senhas/discussions"><img src="https://img.shields.io/github/discussions/oseasfr/gerador-de-senhas"></a>
