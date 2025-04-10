@@ -583,7 +583,8 @@
         feedback.classList.remove("show-feedback");
       }, 1500);
     }
-function calcularForçaSenha(password) {
+
+   function calcularForçaSenha(password) {
   // Definir pontuação base com base no comprimento
   let score = 0;
   const length = password.length;
@@ -832,85 +833,6 @@ function calcularForçaSenha(password) {
     info
   };
 }
-    function calcularForçaSenha(password) {
-      // Definir pontuação base com base no comprimento
-      let score = 0;
-      const length = password.length;
-
-      // Verificar a existência de diferentes tipos de caracteres
-      const hasUpper = /[A-Z]/.test(password);
-      const hasLower = /[a-z]/.test(password);
-      const hasNumbers = /[0-9]/.test(password);
-      const hasSymbols = /[!@#$%&*\(\)-_=+]/.test(password);
-
-      // Adicionar pontos para cada tipo de caractere presente
-      const charTypesCount = [hasUpper, hasLower, hasNumbers, hasSymbols].filter(Boolean).length;
-
-      // Calcular pontuação base no comprimento e tipos de caracteres
-      score = Math.min(100, (length * 4) + (charTypesCount * 10));
-
-      // Ajustar pontuação com base no comprimento mínimo
-      if (length < 8) score = Math.min(score, 40);
-      else if (length < 10) score = Math.min(score, 60);
-      else if (length < 12) score = Math.min(score, 80);
-
-      // Retornar objetos com as informações de força
-      let strength = '';
-      let color = '';
-      let info = '';
-
-      if (score < 30) {
-        strength = 'Muito fraca';
-        color = '#ff4d4d';
-        info = 'Senha facilmente quebrável em segundos ou minutos.';
-      } else if (score < 50) {
-        strength = 'Fraca';
-        color = '#ffaa00';
-        info = 'Pode ser quebrada em poucas horas ou dias.';
-      } else if (score < 70) {
-        strength = 'Média';
-        color = '#ffff00';
-        info = 'Pode levar semanas para ser quebrada.';
-      } else if (score < 85) {
-        strength = 'Forte';
-        color = '#aaff00';
-        info = 'Pode levar anos para ser quebrada.';
-      } else {
-        strength = 'Muito forte';
-        color = '#66ff66';
-        info = 'Pode levar séculos para ser quebrada com tecnologia atual.';
-      }
-
-      // Adicionar informações adicionais baseadas na análise
-      if (length < 12) {
-        info += ' Recomendamos senhas com pelo menos 12 caracteres.';
-      }
-
-      if (charTypesCount < 3) {
-        info += ' Use mais tipos de caracteres (maiúsculas, minúsculas, números, símbolos).';
-      }
-
-      return {
-        score,
-        strength,
-        color,
-        info
-      };
-    }
-
-    function atualizarForcaSenha(password, idPrefix = '') {
-      const strengthResult = calcularForçaSenha(password);
-
-      document.getElementById(`${idPrefix}strength-text`).textContent = strengthResult.strength;
-      document.getElementById(`${idPrefix}strength-score`).textContent = `${strengthResult.score}/100`;
-
-      const strengthFill = document.getElementById(`${idPrefix}strength-fill`);
-      strengthFill.style.width = `${strengthResult.score}%`;
-      strengthFill.style.backgroundColor = strengthResult.color;
-
-      document.getElementById(`${idPrefix}strength-info`).textContent = strengthResult.info;
-    }
-
     function gerarSenha() {
       // Obter os valores das opções
       const length = parseInt(document.getElementById("passwordLength").value);
