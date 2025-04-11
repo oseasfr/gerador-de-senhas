@@ -16,6 +16,11 @@ body {
   transition: background-image 0.8s ease-in-out;
 }
 
+/* Fallback caso a imagem não carregue */
+body.no-image {
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+}
+
 .overlay {
   background-color: rgba(15, 23, 42, 0.85);
   position: absolute;
