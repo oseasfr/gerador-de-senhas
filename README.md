@@ -18,14 +18,14 @@
 
 #### ⚙️ Estrutura
 
-├── index.html
-├── css/
-│   ├── style.css
-├── js/
-│   ├── script.js
-│   ├── password-strength.js
-├── imagens/
-│   ├── (imagens.jpg)
+├── index.html<br>
+├── css/<br>
+├───── style.css<br>
+├── js/<br>
+├───── script.js<br>
+├───── password-strength.js<br>
+├── imagens/<br>
+├───── (imagens.jpg)
 
 🤝 Contribua
 
