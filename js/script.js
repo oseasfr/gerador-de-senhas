@@ -1,5 +1,5 @@
 const imagens = Array.from({ length: 10 }, (_, i) =>
-  `../imagens/${String(i + 1).padStart(3, '0')}.jpg`
+  `imagens/${String(i + 1).padStart(3, '0')}.jpg`
 );
 let indiceAtual = 0;
 
