@@ -11,7 +11,7 @@ html, body {
 }
 
 body {
-  background: url('https://raw.githubusercontent.com/oseasfr/gerador-de-senhas/Principal/imagens/001.jpg') no-repeat center center fixed;
+  background: url('../imagens/001.jpg') no-repeat center center fixed;
   background-size: cover;
   transition: background-image 0.8s ease-in-out;
 }
