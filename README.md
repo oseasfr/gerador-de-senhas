@@ -16,6 +16,17 @@
 > Personalizações: comprimento, letras, números e símbolos;<br>
 > Analisa força da senha e testa existentes;<br>
 
+#### ⚙️ Estrutura
+
+├── index.html
+├── css/
+│   ├── style.css
+├── js/
+│   ├── script.js
+│   ├── password-strength.js
+├── imagens/
+│   ├── (imagens.jpg)
+
 🤝 Contribua
 
 Sinta-se à vontade para sugerir melhorias. 🚀
