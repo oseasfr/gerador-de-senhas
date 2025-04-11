@@ -189,3 +189,96 @@
   <script src="js/script.js"></script>
 </body>
 </html>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gerador de Senhas</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="overlay">
+    <div class="container">
+      <h1>🔐 Gerador de Senhas</h1>
+
+      <div class="tabs">
+        <button class="tab-btn active" data-tab="generate">Gerar Senha</button>
+        <button class="tab-btn" data-tab="test">Testar Senha</button>
+      </div>
+
+      <div id="generate" class="tab-content active">
+        <div class="options">
+          <div class="length-option">
+            <label for="passwordLength">Comprimento da senha: <span id="lengthValue">20</span></label>
+            <div class="range-slider">
+              <input type="range" id="passwordLengthSlider" min="10" max="20" value="20">
+              <input type="number" id="passwordLength" min="10" max="20" value="20">
+            </div>
+          </div>
+
+          <div class="option-row">
+            <input type="checkbox" id="includeUpper" checked>
+            <label for="includeUpper">Letras maiúsculas (A-Z)</label>
+          </div>
+
+          <div class="option-row">
+            <input type="checkbox" id="includeLower" checked>
+            <label for="includeLower">Letras minúsculas (a-z)</label>
+          </div>
+
+          <div class="option-row">
+            <input type="checkbox" id="includeNumbers" checked>
+            <label for="includeNumbers">Números (0-9)</label>
+          </div>
+
+          <div class="option-row">
+            <input type="checkbox" id="includeSymbols" checked>
+            <label for="includeSymbols">Símbolos (!@#$%&*()-_=+)</label>
+          </div>
+        </div>
+
+        <div class="password-container">
+          <input type="text" id="password" readonly>
+          <div class="copy-feedback">Copiado!</div>
+        </div>
+
+        <button onclick="gerarSenha()">Gerar nova senha</button>
+        <button onclick="copiarSenha('password')">Copiar Senha Gerada</button>
+
+        <div class="strength-meter">
+          <div class="strength-title">
+            <span>Força da senha: <span id="strength-text">-</span></span>
+            <span id="strength-score">-</span>
+          </div>
+          <div class="strength-bar">
+            <div class="strength-fill" id="strength-fill"></div>
+          </div>
+          <div class="strength-info" id="strength-info">-</div>
+        </div>
+      </div>
+
+      <div id="test" class="tab-content">
+        <h2>Digite uma senha para testar sua força</h2>
+
+        <div class="password-container">
+          <input type="text" id="testPassword" placeholder="Digite sua senha aqui">
+        </div>
+        <div class="strength-meter">
+          <div class="strength-title">
+            <span>Força da senha: <span id="test-strength-text">-</span></span>
+            <span id="test-strength-score">-</span>
+          </div>
+          <div class="strength-bar">
+            <div class="strength-fill" id="test-strength-fill"></div>
+          </div>
+          <div class="strength-info" id="test-strength-info">-</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/password-strength.js"></script>
+  <script src="js/script.js"></script>
+</body>
+</html>
