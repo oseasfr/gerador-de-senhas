@@ -6,8 +6,8 @@
   <title>Gerador de Senhas</title>
   <link rel="stylesheet" href="css/style.css">
   <style>
-    /* Novos estilos apenas para o SVG - não interfere no existente */
-.svg-background {
+    /* Estilos para o SVG de fundo */
+    .svg-background {
       position: fixed;
       top: 0;
       left: 0;
@@ -37,32 +37,39 @@
   <!-- SVG como plano de fundo -->
   <div class="svg-background">
     <svg viewBox="0 0 400 200" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">
-      <!-- [Todo o conteúdo do seu SVG aqui] -->
       <defs>
         <linearGradient id="lockGradient" x1="20%" y1="0%" x2="80%" y2="100%">
           <stop offset="0%" stop-color="#60a5fa" />
           <stop offset="50%" stop-color="#3b82f6" />
           <stop offset="100%" stop-color="#1d4ed8" />
         </linearGradient>
-        <!-- ... resto do código SVG ... -->
       </defs>
-      <!-- ... elementos gráficos do SVG ... -->
+      
+      <!-- Padrões de fundo -->
+      <pattern id="gridPattern" width="20" height="20" patternUnits="userSpaceOnUse">
+        <rect width="20" height="20" fill="none" stroke="#3b82f680" stroke-width="0.5"/>
+      </pattern>
+      
+      <!-- Fundo com padrão -->
+      <rect width="100%" height="100%" fill="#0f172a" />
+      <rect width="100%" height="100%" fill="url(#gridPattern)" />
+      
+      <!-- Elementos decorativos -->
+      <g transform="translate(200, 100)">
+        <!-- Cadeado estilizado -->
+        <rect x="-30" y="-10" width="60" height="50" rx="10" fill="url(#lockGradient)" />
+        <rect x="-15" y="-30" width="30" height="30" rx="15" stroke="url(#lockGradient)" stroke-width="8" fill="none" />
+        
+        <!-- Símbolos de segurança -->
+        <text x="-80" y="-30" fill="#60a5fa" font-family="monospace" font-size="8">* # $ %</text>
+        <text x="50" y="-50" fill="#60a5fa" font-family="monospace" font-size="8">@ ! & ?</text>
+        <text x="-90" y="70" fill="#60a5fa" font-family="monospace" font-size="8">1 0 1 0</text>
+        <text x="60" y="40" fill="#60a5fa" font-family="monospace" font-size="8">A b C d</text>
+      </g>
     </svg>
   </div>
 
-  <!-- Seu conteúdo original completo -->
-  <div class="overlay">
-    <!-- [Todo o seu conteúdo HTML original aqui] -->
-    <div class="container">
-      <!-- ... todo o conteúdo do gerador de senhas ... -->
-    </div>
-  </div>
-
-  <script src="js/password-strength.js"></script>
-  <script src="js/script.js"></script>
-  </div>
-
-  <!-- Seu conteúdo original COMPLETO (exatamente como estava) -->
+  <!-- Conteúdo principal -->
   <div class="overlay">
     <div class="container">
       <h1>🔐 Gerador de Senhas</h1>
