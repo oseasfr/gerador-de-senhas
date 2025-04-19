@@ -15,6 +15,19 @@
 > Personalizações: comprimento, letras, números e símbolos;<br>
 > Analisa força da senha e testa existentes;<br>
 
+📂 Estrutura do Projeto
+
+```
+├── index.html                # Página principal
+├── imagens/                  # Imagens e recursos visuais
+│   └── 001.jpg - 010.jpg     # Imagens de fundo tech
+├── css/                      # Estilos da aplicação
+│   └── styles.css            # Arquivo CSS principal
+├── js/                       # Scripts JavaScript
+│   ├── password-strength.js  # Cálculo de força da senha inserida
+└── └── scripts.js            # Funções gerais da página
+```
 🤝 Contribua
 
 Sinta-se à vontade para sugerir melhorias. 🚀
+---
