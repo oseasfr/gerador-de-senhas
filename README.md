@@ -7,7 +7,7 @@
 <img src="https://img.shields.io/github/stars/oseasfr/gerador-de-senhas.svg?style=social" title="Stars" /> 
 </p>
 
-- [oseasfr.github.io/gerador-de-senhas](https://oseasfr.github.io/gerador-de-senhas)
+Ferramenta para gerar senhas de forma personalizada e avaliar a força das senhas inseridas com dicas de melhorias.
 
 #### 🗝️ Funcionalidades
 
