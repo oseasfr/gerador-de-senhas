@@ -9,7 +9,7 @@
 
 Ferramenta para gerar senhas de forma personalizada e avaliar a força das senhas inseridas com dicas de melhorias.
 
-#### 🗝️ Funcionalidades
+#### ⚙ Funcionalidades
 
 > Gera senhas aleatórias;<br>
 > Personalizações: comprimento, letras, números e símbolos;<br>
