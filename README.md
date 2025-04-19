@@ -30,4 +30,3 @@ Ferramenta para gerar senhas de forma personalizada e avaliar a força das senha
 #### 🤝 Contribua
 
 Sinta-se à vontade para sugerir melhorias. 🚀
----
