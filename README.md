@@ -15,7 +15,7 @@ Ferramenta para gerar senhas de forma personalizada e avaliar a força das senha
 > Personalizações: comprimento, letras, números e símbolos;<br>
 > Analisa força da senha e testa existentes;<br>
 
-📂 Estrutura do Projeto
+#### 📂 Estrutura do Projeto
 
 ```
 ├── index.html                # Página principal
@@ -27,7 +27,7 @@ Ferramenta para gerar senhas de forma personalizada e avaliar a força das senha
 │   ├── password-strength.js  # Cálculo de força da senha inserida
 └── └── scripts.js            # Funções gerais da página
 ```
-🤝 Contribua
+#### 🤝 Contribua
 
 Sinta-se à vontade para sugerir melhorias. 🚀
 ---
