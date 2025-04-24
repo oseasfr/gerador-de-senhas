@@ -11,7 +11,8 @@ Ferramenta para gerar senhas de forma personalizada e avaliar a força das senha
 
 #### ⚙ Funcionalidades
 
-> Gera senhas aleatórias;<br>
+> [!TIP]
+>  Gera senhas aleatórias;<br>
 > Personalizações: comprimento, letras, números e símbolos;<br>
 > Analisa força da senha e testa existentes;<br>
 
