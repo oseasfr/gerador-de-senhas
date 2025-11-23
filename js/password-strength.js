@@ -1,87 +1,64 @@
-// A função calcularForçaSenha agora usa o algoritmo zxcvbn (disponível globalmente após a inclusão do script)
-function calcularForçaSenha(password) {
-  // Se a senha estiver vazia, retorna um estado inicial
-  if (!password) {
-    return {
-      score: 0,
-      strength: 'Nenhuma',
-      color: '#cccccc',
-      info: 'Digite uma senha para testar a força.'
-    };
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 8%;
+    --foreground: 0 0% 95%;
+
+    --card: 0 0% 12%;
+    --card-foreground: 0 0% 95%;
+
+    --popover: 0 0% 10%;
+    --popover-foreground: 0 0% 95%;
+
+    --primary: 214 78% 55%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 0 0% 20%;
+    --secondary-foreground: 0 0% 90%;
+
+    --muted: 0 0% 15%;
+    --muted-foreground: 0 0% 65%;
+
+    --accent: 214 60% 45%;
+    --accent-foreground: 0 0% 95%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 95%;
+
+    --border: 0 0% 25%;
+    --input: 0 0% 20%;
+    --ring: 214 78% 55%;
+
+    --cyber-blue: 214 78% 55%;
+    --cyber-blue-muted: 214 60% 45%;
+    --cyber-dark: 0 0% 8%;
+    --cyber-darker: 0 0% 5%;
+    --cyber-gray: 0 0% 15%;
+    --cyber-light: 0 0% 95%;
+
+    --gradient-cyber: linear-gradient(135deg, hsl(214 78% 55% / 0.1), hsl(214 60% 45% / 0.2));
+    --gradient-dark: linear-gradient(180deg, hsl(0 0% 8%), hsl(0 0% 5%));
+    --gradient-glow: linear-gradient(90deg, transparent, hsl(214 78% 55% / 0.3), transparent);
+
+    --shadow-cyber: 0 0 20px hsl(214 78% 55% / 0.3);
+    --shadow-soft: 0 4px 20px hsl(0 0% 0% / 0.3);
+    --shadow-glow: 0 0 40px hsl(214 78% 55% / 0.2);
+
+    --transition-cyber: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+    --radius: 0.75rem;
   }
-
-  // 1. Chamar o algoritmo zxcvbn
-  // O zxcvbn retorna um objeto com a pontuação (score) de 0 a 4
-  const result = zxcvbn(password);
-  const zxcvbnScore = result.score; // 0 = Pior, 4 = Melhor
-
-  // 2. Mapear a pontuação do zxcvbn (0-4) para a sua escala (0-100)
-  let strength = '';
-  let color = '';
-  let info = '';
-  let score100 = 0; // Pontuação para a barra de progresso (0-100)
-
-  switch (zxcvbnScore) {
-    case 0:
-      strength = 'Muito fraca';
-      color = '#ff4d4d';
-      info = 'Senha facilmente quebrável. Evite padrões comuns e palavras do dicionário.';
-      score100 = 15;
-      break;
-    case 1:
-      strength = 'Fraca';
-      color = '#ffaa00';
-      info = 'Pode ser quebrada em poucas horas ou dias. Aumente o comprimento e a complexidade.';
-      score100 = 40;
-      break;
-    case 2:
-      strength = 'Média';
-      color = '#ffff00';
-      info = 'Pode levar semanas para ser quebrada. Considere uma frase-senha mais longa.';
-      score100 = 65;
-      break;
-    case 3:
-      strength = 'Forte';
-      color = '#aaff00';
-      info = 'Pode levar anos para ser quebrada. Ótima segurança.';
-      score100 = 85;
-      break;
-    case 4:
-      strength = 'Muito forte';
-      color = '#66ff66';
-      // O zxcvbn fornece o tempo estimado de quebra (crack_times_display)
-      info = `Pode levar ${result.crack_times_display} para ser quebrada. Excelente!`;
-      score100 = 100;
-      break;
-  }
-
-  // 3. Adicionar sugestões de aprimoramento (feedback)
-  // O zxcvbn também fornece sugestões de aprimoramento
-  if (result.feedback && result.feedback.suggestions && result.feedback.suggestions.length > 0) {
-    info += ' Sugestões: ' + result.feedback.suggestions.join(' ');
-  } else if (zxcvbnScore < 4) {
-    // Se não houver sugestões específicas, mas a senha não for 4, manter a sugestão de comprimento
-    info += ' Recomendamos senhas com pelo menos 14 caracteres.';
-  }
-
-  return {
-    score: score100, // Usamos a pontuação mapeada para a barra de progresso
-    strength,
-    color,
-    info
-  };
 }
 
-// A função atualizarForcaSenha permanece a mesma, pois ela apenas usa o resultado
-function atualizarForcaSenha(password, idPrefix = '') {
-  const strengthResult = calcularForçaSenha(password);
+@layer base {
+  * {
+    @apply border-border;
+  }
 
-  document.getElementById(`${idPrefix}strength-text`).textContent = strengthResult.strength;
-  document.getElementById(`${idPrefix}strength-score`).textContent = `${strengthResult.score}/100`;
-
-  const strengthFill = document.getElementById(`${idPrefix}strength-fill`);
-  strengthFill.style.width = `${strengthResult.score}%`;
-  strengthFill.style.backgroundColor = strengthResult.color;
-
-  document.getElementById(`${idPrefix}strength-info`).textContent = strengthResult.info;
+  body {
+    @apply bg-background text-foreground min-h-screen;
+  }
 }
